@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:path/path.dart' as p;
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:process_run/shell.dart';
 // import 'package:provider/provider.dart';
 // import 'package:little_emmi/Providers/api_key_provider.dart'; // REMOVED
@@ -72,7 +73,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if ((Platform.isWindows || Platform.isMacOS) &&
+    if (!kIsWeb && (Platform.isWindows || Platform.isMacOS) &&
         state == AppLifecycleState.detached) {
       FirebaseAuth.instance.signOut();
     }
@@ -115,13 +116,14 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen>
   }
 
   Future<void> _requestCameraPermission() async {
-    if (Platform.isWindows) return;
+    if (kIsWeb || Platform.isWindows) return;
     var status = await Permission.camera.status;
     if (status.isDenied) await Permission.camera.request();
     if (await Permission.camera.isPermanentlyDenied) openAppSettings();
   }
 
   Future<void> _launchEmmiV2App() async {
+    if (kIsWeb) return;
     try {
       String appDirectory = p.dirname(Platform.resolvedExecutable);
       var shell = Shell(workingDirectory: appDirectory);
@@ -472,7 +474,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen>
     ];
 
     final List<DashboardItem> roboticsApps = [
-      if (Platform.isWindows)
+      if (!kIsWeb && Platform.isWindows)
         DashboardItem(
             title: 'Emmi Core',
             subtitle: 'Robot Manager',

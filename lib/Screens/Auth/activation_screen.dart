@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -36,6 +37,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
   // --- LOGIC METHODS (KEPT INTACT) ---
 
   Future<String> _getDeviceId() async {
+    if (kIsWeb) return 'web-device';
     var deviceInfo = DeviceInfoPlugin();
     try {
       if (Platform.isWindows) {

@@ -1,4 +1,5 @@
 import 'dart:io'; // For Platform check
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -137,6 +138,7 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
 
   // 🆔 HARDWARE ID EXTRACTION
   Future<String> _getHardwareDeviceId() async {
+    if (kIsWeb) return 'web_device_${DateTime.now().millisecondsSinceEpoch}';
     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String deviceId = '';
 
@@ -233,7 +235,7 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
         'status': 'active',
         'linkedDeviceId': deviceId, // Lock happens here
         'activatedAt': FieldValue.serverTimestamp(),
-        'platform': Platform.operatingSystem, // Useful for your admin panel
+        'platform': kIsWeb ? 'web' : Platform.operatingSystem, // Useful for your admin panel
       });
 
       // 5. SUCCESS

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
@@ -29,7 +30,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _launchEmmiV2App() async {
-    if (!Platform.isWindows) {
+    if (kIsWeb || !Platform.isWindows) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Windows only feature.')),
       );
