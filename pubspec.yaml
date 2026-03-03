@@ -131,7 +131,6 @@ flutter:
     - assets/mobilenet_feature.tflite
     - assets/images/chatai.png
     - assets/images/
-    - assets/web.zip
     - assets/qubiq_web/
     - assets/qubiq_web/assets/
     - assets/www/
